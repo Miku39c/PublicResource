@@ -305,12 +305,22 @@ function makeHandler(next) {
 var RequestHandler = makeHandler(function (rq) {
     var xhr = this.xhr;
     rq = rq || xhr.config;
-    xhr.withCredentials = rq.withCredentials;
+    try {
+        xhr.withCredentials = rq.withCredentials;
+    } catch (e) {
+        console.log("Error 1: " + e);
+        console.log("xhr 1: " + xhr);
+    }
     xhr.open(rq.method, rq.url, rq.async !== false, rq.user, rq.password);
     for (var key in rq.headers) {
         xhr.setRequestHeader(key, rq.headers[key]);
     }
-    xhr.send(rq.body);
+    try {
+        xhr.send(rq.body);
+    } catch (e) {
+        console.log("Error 2: " + e);
+        console.log("xhr 2: " + xhr);
+    }
 });
 
 var ResponseHandler = makeHandler(function (response) {
