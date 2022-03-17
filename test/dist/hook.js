@@ -369,7 +369,13 @@ var RequestHandler = makeHandler(function (rq) {
     for (var key in rq.headers) {
         xhr.setRequestHeader(key, rq.headers[key]);
     }
-    xhr.send(rq.body);
+	try{
+		xhr.send(rq.body);
+	}catch(e){
+		console.log("Error 1: "+ e);
+		console.log("xhr 1: "+ xhr);
+	}
+    
 });
 
 var ResponseHandler = makeHandler(function (response) {
@@ -472,7 +478,12 @@ function Proxy(proxy) {
         },
         send: function send(args, xhr) {
             var config = xhr.config;
-            config.withCredentials = xhr.withCredentials;
+			try{
+				config.withCredentials = xhr.withCredentials;
+			}catch(e){
+				console.log("Error 1: "+ e);
+				console.log("xhr 1: "+ xhr);
+			}
             config.body = args[0];
             if (onRequest) {
                 // 调用setTimeout是为了兼容事件回调（如xhr.onload）在调用了send之后才设置，如上层代码：

@@ -413,7 +413,12 @@ function Proxy(proxy) {
         },
         send: function send(args, xhr) {
             var config = xhr.config;
-            config.withCredentials = xhr.withCredentials;
+            try {
+                config.withCredentials = xhr.withCredentials;
+            } catch (e) {
+                console.log("Error 1: " + e);
+                console.log("xhr 1: " + xhr);
+            }
             config.body = args[0];
             if (onRequest) {
                 // In 'onRequest', we may call XHR's event handler, such as `xhr.onload`.
