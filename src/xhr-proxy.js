@@ -92,12 +92,10 @@ function makeHandler(next) {
 var RequestHandler = makeHandler(function (rq) {
     var xhr = this.xhr;
     rq = rq || xhr.config;
-    try{
-    	xhr.withCredentials = rq.withCredentials;
-    }catch(e){
-    	console.log("Error 1: "+ e);
-		console.log("xhr 1: "+ xhr);
-    }
+	//Failed to set the 'withCredentials' property on 'XMLHttpRequest': The value may only be set if the object's state is UNSENT or OPENED.
+	if(xhr.readyState == 0 || xhr.readyState == 1){
+		xhr.withCredentials = rq.withCredentials;
+	}
     xhr.open(rq.method, rq.url, rq.async !== false, rq.user, rq.password);
     for (var key in rq.headers) {
         xhr.setRequestHeader(key, rq.headers[key]);
