@@ -309,6 +309,9 @@ var RequestHandler = makeHandler(function (rq) {
     if (xhr.readyState == 0 || xhr.readyState == 1) {
         xhr.withCredentials = rq.withCredentials;
     }
+    xhr.onerror = function (e) {
+        console.log("Error 0: " + e);
+    };
     xhr.open(rq.method, rq.url, rq.async !== false, rq.user, rq.password);
     for (var key in rq.headers) {
         xhr.setRequestHeader(key, rq.headers[key]);
